@@ -9,6 +9,7 @@ Map = []
 Grass_ground = c.terrain.Terrain(pygame.image.load('image/grass.jpg').convert_alpha(),"ground")
 Grass_ground1 = c.terrain.Terrain(pygame.image.load('image/grass1.jpg').convert_alpha(),"ground")
 
+print("test")
 player = c.character.Character('player',
 [
 [pygame.image.load('image/player/front0.png').convert_alpha(),
