@@ -9,7 +9,6 @@ Map = []
 Grass_ground = c.terrain.Terrain(pygame.image.load('image/grass.jpg').convert_alpha(),"ground")
 Grass_ground1 = c.terrain.Terrain(pygame.image.load('image/grass1.jpg').convert_alpha(),"ground")
 
-print("test")
 player = c.character.Character('player',
 [
 [pygame.image.load('image/player/front0.png').convert_alpha(),
@@ -25,15 +24,13 @@ pygame.image.load('image/player/left2.png').convert_alpha()],
 pygame.image.load('image/player/right1.png').convert_alpha(),
 pygame.image.load('image/player/right2.png').convert_alpha()]
 ]
-,0,1,0)
+,0,1,0,0)
 
 Tree = pygame.image.load('image/tree.png').convert_alpha()
 
 for i in range(40):
     row=[]
-    for k in range(i):
-        row.append([Grass_ground1,''])
-    for j in range(i,40):
+    for j in range(40):
         row.append([Grass_ground,''])
     Map.append(row)
 
@@ -57,15 +54,23 @@ for i in range(0,39,2):
 def refresh():
     global screen
     global Grass_ground
+    global Player_location
+    pianyi = 6*player.Clock
+    if player.Direction == 0 or player.Direction == 1:
+        y = (player.Direction-0.5)*2
+        x = 0
+    else:
+        y = 0
+        x = (player.Direction-2.5)*2
 
     for i in range(11):
         for j in range(0,15):
-            screen.blit((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image,[j*60,i*60])
+            screen.blit((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image,[j*60+x*pianyi,i*60+y*pianyi])
 
     for i in range(-1,15):
         for j in range(-1,15):
-            if  Map[Player_location[0]-7+j][Player_location[1]-7+i][1] == 'tree_image':
-                screen.blit(Tree,[j*60,(i-1)*60])
+            if  Map[Player_location[0]-7+j][Player_location[1]-5+i][1] == 'tree_image':
+                screen.blit(Tree,[j*60+x*pianyi,(i-1)*60+y*pianyi])
 
     if player.Clock ==0 :
         screen.blit(player.Image[player.Direction][0],[7*60,4*60])
@@ -76,9 +81,7 @@ def refresh():
             player.Point +=1
     
 
-while 1:
-
-    
+while 1: 
     refresh() 
 
     pygame.display.flip()
