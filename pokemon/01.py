@@ -6,7 +6,7 @@ from pygame.locals import *
 screen=pygame.display.set_mode([900,600])
 Map = []
 Dynamicstate_point = 0
-press = False
+press = ''
 
 #动态滚动时坐标轴方向偏移量符号
 x=0
@@ -57,9 +57,6 @@ Map[12][12] = [flower,'']
 Player_location = [10,10]
 
 
-
-
-
 def add_tree(location):
     Map[location[0]][location[1]-1][1] = 'tree_image'
     Map[location[0]][location[1]][1] = 'tree'
@@ -73,7 +70,6 @@ for i in range(0,41,2):
         if j<7 or j >29 or i<8 or i>31:
             add_tree([i,j])
             #print(i,j)
-
 
 
 def refresh():
@@ -92,59 +88,67 @@ def refresh():
         if event.type==pygame.QUIT:
             pygame.quit()
             exit(0)
-        if event.type==pygame.KEYDOWN and player.Clock == 0:
+        if event.type==pygame.KEYDOWN and player.Clock == 0 and press=='':
             if event.key==K_w:
-                press = True
+                press = 'w'
                 if player.Direction == 1 and Player_location[1]>6:
                     Player_location[1]-=1
                     y = -1
                     x = 0
                 else:
-                    player.Direction = 1    
+                    player.Direction = 1
+                    x=0
+                    y=0
                 player.Clock = 9
             elif event.key==K_a:
-                press = True
+                press = 'a'
                 if player.Direction == 2 and Player_location[0]>8:
                     Player_location[0]-=1
                     y = 0
                     x = -1
                 else:
                     player.Direction = 2
+                    x=0
+                    y=0
                 player.Clock = 9
             elif event.key==K_s:
-                press = True
+                press = 's'
                 if player.Direction == 0 and 29>Player_location[1]:
                     Player_location[1]+=1
                     y = 1
                     x = 0
                 else:
                     player.Direction = 0
+                    x=0
+                    y=0
                 player.Clock = 9
             elif event.key==K_d:
-                press = True
+                press = 'd'
                 if player.Direction == 3 and 31>Player_location[0]:
                     Player_location[0]+=1
                     y = 0
                     x = 1
                 else:
                     player.Direction = 3
+                    x=0
+                    y=0
                 player.Clock = 9
 
 
         if event.type==pygame.KEYUP:
-                if event.key==pygame.K_w:
-                    press=False                 
-                elif event.key==pygame.K_a:
-                    press=False
-                elif event.key==pygame.K_s:
-                    press=False
-                elif event.key==pygame.K_d:
-                    press=False
+                if event.key==pygame.K_w and press == 'w':
+                    press=''              
+                elif event.key==pygame.K_a and press == 'a':
+                    press=''
+                elif event.key==pygame.K_s and press == 's':
+                    press=''
+                elif event.key==pygame.K_d and press == 'd':
+                    press=''
 
 
     
     #连续方向键前进
-    if press == True and player.Clock == 0:
+    if press != '' and player.Clock == 0:
         player.Clock = 9
 
         if player.Direction == 1 and Player_location[1]>6:
@@ -168,6 +172,7 @@ def refresh():
             x = 1
 
     pianyi = 6*player.Clock
+    print(player.Clock)
     #加载草插图
     for i in range(11):
         for j in range(-2,17):
@@ -197,12 +202,10 @@ def refresh():
                 screen.blit(Tree,[j*60+x*pianyi,(i-1)*60+y*pianyi])
 
     
-
-    
     
 
 while 1: 
-    refresh() 
+    refresh()    
 
     pygame.display.flip()
 
