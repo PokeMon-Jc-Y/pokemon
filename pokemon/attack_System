@@ -15,7 +15,7 @@ def __set_title_and_images():
 
     screen.blit(background_image, [0, 0])
     screen.blit(grass_image,[0,0])
-
+    print('screen sucessfully load')
 
 def __attack_start():
     while 1:
