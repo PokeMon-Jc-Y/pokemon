@@ -69,7 +69,6 @@ for i in range(0,41,2):
     for j in range(-1,39,2):
         if j<7 or j >29 or i<8 or i>31:
             add_tree([i,j])
-            #print(i,j)
 
 
 def refresh():
