@@ -118,3 +118,4 @@ def __draw_attack_rect():
 
 
 __attack_start()
+print('no')
