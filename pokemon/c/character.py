@@ -5,7 +5,7 @@ class Character(object):
     __metaclass__=ABCMeta
 
     def __init__(self,Name,Image,Direction,Point,Clock,Poke_ball):
-        "角色姓名，角色贴图list，贴图指针（下次迈哪只脚），动作延时帧数"
+        "Character name, character map list, map pointer (which foot is next), action delay frames"
         self.Name=Image
         self.Image=Image
         self.Direction=Direction

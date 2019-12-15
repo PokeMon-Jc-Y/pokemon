@@ -8,7 +8,7 @@ Map = []
 Dynamicstate_point = 0
 press = ''
 
-#动态滚动时坐标轴方向偏移量符号
+#Axis offset symbol for dynamic scrolling
 x=0
 y=0
 
@@ -146,7 +146,7 @@ def refresh():
 
 
     
-    #连续方向键前进
+    #Continuous arrow keys go forward
     if press != '' and player.Clock == 0:
         player.Clock = 9
 
@@ -172,7 +172,7 @@ def refresh():
 
     pianyi = 6*player.Clock
     print(player.Clock)
-    #加载草插图
+    #Loading straw illustration
     for i in range(11):
         for j in range(-2,17):
             if len((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image)==1 :
@@ -184,7 +184,7 @@ def refresh():
 
     for i in range(-2,17):
         for j in range(-2,17):
-            #加载人物插图
+            #Loading character illustration
             if i==7 and j==4:
                 if player.Clock ==0 :
                     screen.blit(player.Image[player.Direction][0],[7*60,4*60])
@@ -196,7 +196,7 @@ def refresh():
                     if player.Clock == 0:
                         player.Point +=1
                   
-            #加载边界树插图
+            #Loading tree illustration
             if  Map[Player_location[0]-7+j][Player_location[1]-5+i][1] == 'tree_image':
                 screen.blit(Tree,[j*60+x*pianyi,(i-1)*60+y*pianyi])
 
