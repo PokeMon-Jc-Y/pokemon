@@ -90,7 +90,7 @@ def refresh():
         if event.type==pygame.KEYDOWN and player.Clock == 0 and press=='':
             if event.key==K_w:
                 press = 'w'
-                if player.Direction == 1 and Player_location[1]>6:
+                if player.Direction == 1 and Player_location[1]>8:
                     Player_location[1]-=1
                     y = -1
                     x = 0
@@ -112,7 +112,7 @@ def refresh():
                 player.Clock = 9
             elif event.key==K_s:
                 press = 's'
-                if player.Direction == 0 and 29>Player_location[1]:
+                if player.Direction == 0 and 31>Player_location[1]:
                     Player_location[1]+=1
                     y = 1
                     x = 0
@@ -148,46 +148,47 @@ def refresh():
     
     #continuous moving
     if press != '' and player.Clock == 0:
-
-        if player.Direction == 1 and Player_location[1]>6:
+        player.Clock = 9
+        if player.Direction == 1 and Player_location[1]>8:
             Player_location[1]-=1
-            player.Clock = 9
             y = -1
             x = 0
- 
-        if player.Direction == 2 and Player_location[0]>8:
+
+        elif player.Direction == 2 and Player_location[0]>8:
             Player_location[0]-=1
             player.Clock = 9
             y = 0
             x = -1
 
-        if player.Direction == 0 and 29>Player_location[1]:
+        elif player.Direction == 0 and 31>Player_location[1]:
             Player_location[1]+=1
             player.Clock = 9
             y = 1
             x = 0
 
-        if player.Direction == 3 and 31>Player_location[0]:
+        elif player.Direction == 3 and 31>Player_location[0]:
             Player_location[0]+=1
             player.Clock = 9
             y = 0
             x = 1
+        else:
+            x=0
+            y=0
 
     offset = 6*player.Clock
     #Loading straw illustration
     for i in range(11):
-        for j in range(-2,17):
+        for j in range(0,15):
             if len((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image)==1 :
                 screen.blit((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image[0],[j*60+x*offset,i*60+y*offset])
             else:
                 #print((Dynamicstate_point%4+1)%2+2*((Dynamicstate_point%4+1)//4))
                 screen.blit((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image[(Dynamicstate_point%36//9+1)%2+2*((Dynamicstate_point%36//9+1)//4)],[j*60+x*offset,i*60+y*offset])
 
-
-    for i in range(-2,17):
-        for j in range(-2,17):
+    for i in range(-1,15):
+        for j in range(-1,15):
             #Loading character illustration
-            if i==7 and j==4:
+            if i==6 and j==4:
                 if player.Clock ==0 :
                     screen.blit(player.Image[player.Direction][0],[7*60,4*60])
                     x=0
@@ -198,8 +199,8 @@ def refresh():
                     if player.Clock == 0:
                         player.Point +=1
                   
-            #Loading tree illustration
-            if  Map[Player_location[0]-7+j][Player_location[1]-5+i][1] == 'tree_image':
+            #Loading tree illustration  
+            if  Map[Player_location[0]-7+j][Player_location[1]-7+i][1] == 'tree_image':
                 screen.blit(Tree,[j*60+x*offset,(i-1)*60+y*offset])
 
     
