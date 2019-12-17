@@ -2,81 +2,80 @@ import pygame,sys
 from pygame.locals import *
 pygame.init()
 screen = pygame.display.set_mode((600,600))
-
+FPS = 30
+FPS_CLOCK = pygame.time.Clock()
+monster_left = -80
+player_left = -80
 # Load the image from local and resize them
-arrow_image = pygame.transform.scale(pygame.image.load('image/attack_system_images/arrow_for_attack_system.png'),(40,25))
+arrow_image = pygame.transform.scale(pygame.image.load('image/attack_system_images/arrow_for_attack_system.png').convert(),(40,25))
 monster_image = pygame.transform.scale(pygame.image.load('image/attack_system_images/test_monster_for_attack_system.png').convert(),(80,80))
 player_image = pygame.transform.scale(pygame.image.load('image/attack_system_images/test_player_for_attack_system.png').convert(),(80,80))
 background_image = pygame.transform.scale(pygame.image.load('image/attack_system_images/white_background.jpg').convert(),(40,40))
-
-background_default = [arrow_image,background_image,background_image,background_image]
-
-
-# Set the attack_system_images's title and the image in it
-def __set_title_and_images():
-    # Set the title
-    pygame.display.set_caption("Attack System")
-    # Set the image and background color on screen
-    screen.fill((255,255,255))
-    screen.blit(monster_image,[300,0])
-    screen.blit(player_image,[0,300])
-
-    print('-The screen successfully load-')
+background_default_options = [arrow_image, background_image, background_image, background_image]
+# Set the title
+pygame.display.set_caption("Attack System")
+screen.fill((255, 255, 255))
 
 
+# Load the 4 position in the option rect
 def __options_refresh():
-    screen.blit(background_default[0], [300, 460])
-    screen.blit(background_default[1], [440, 460])
-    screen.blit(background_default[2], [300, 530])
-    screen.blit(background_default[3], [440, 530])
+    screen.blit(background_default_options[0], [300, 460])
+    screen.blit(background_default_options[1], [440, 460])
+    screen.blit(background_default_options[2], [300, 530])
+    screen.blit(background_default_options[3], [440, 530])
 
 
+# Change the background_default_option by input, in order to change the arrow's location by map
 def __arrow_movement(direction):
-    if background_default[0] == arrow_image:
+    # get the location of the arrow
+    if background_default_options[0] == arrow_image:
         if direction == 'd':
-            background_default[0] = background_image
-            background_default[1] = arrow_image
+            background_default_options[0] = background_image
+            background_default_options[1] = arrow_image
         if direction == 's':
-            background_default[0] = background_image
-            background_default[2] = arrow_image
+            background_default_options[0] = background_image
+            background_default_options[2] = arrow_image
 
-    if background_default[1] == arrow_image:
+    if background_default_options[1] == arrow_image:
         if direction == 'a':
-            background_default[1] = background_image
-            background_default[0] = arrow_image
+            background_default_options[1] = background_image
+            background_default_options[0] = arrow_image
         if direction == 's':
-            background_default[1] = background_image
-            background_default[3] = arrow_image
+            background_default_options[1] = background_image
+            background_default_options[3] = arrow_image
 
-    if background_default[2] == arrow_image:
+    if background_default_options[2] == arrow_image:
         if direction == 'w':
-            background_default[2] = background_image
-            background_default[0] = arrow_image
+            background_default_options[2] = background_image
+            background_default_options[0] = arrow_image
         if direction == 'd':
-            background_default[2] = background_image
-            background_default[3] = arrow_image
+            background_default_options[2] = background_image
+            background_default_options[3] = arrow_image
 
-    if background_default[3] == arrow_image:
+    if background_default_options[3] == arrow_image:
         if direction == 'w':
-            background_default[3] = background_image
-            background_default[1] = arrow_image
+            background_default_options[3] = background_image
+            background_default_options[1] = arrow_image
         if direction == 'a':
-            background_default[3] = background_image
-            background_default[2] = arrow_image
+            background_default_options[3] = background_image
+            background_default_options[2] = arrow_image
 
 
 # Get new event from keyboard(change options by click W,A,S,D)
 def __attack_start():
-    __set_title_and_images()
     __options_refresh()
     __draw_attack_rect()
 
-    while 1:
+    while True:
+        # __set_animation()
+
         for event in pygame.event.get():
+            # Quit the system
             if event.type == pygame.QUIT:
                 print('-You quit the attack system successfully-')
                 pygame.quit()
                 quit()
+            # Get input from keyboard and react
             if event.type == pygame.KEYDOWN:
                 if event.key == K_w:
                     __arrow_movement('w')
@@ -118,4 +117,4 @@ def __draw_attack_rect():
 
 
 __attack_start()
-print('no')
+pygame.time.delay(30)
