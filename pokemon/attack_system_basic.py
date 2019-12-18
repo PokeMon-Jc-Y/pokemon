@@ -9,11 +9,18 @@ class AttackSystem:
         # The location of arrow
         self.background_default_options = 1
         # Load the image from local and resize them
-        self.arrow_image = pygame.transform.scale(pygame.image.load('image/attack_system_images/arrow_for_options.jpg'),(40, 25))
-        self.monster_image_front = pygame.transform.scale(pygame.image.load('image/monster_images/mudkip_front.png'), (80, 80))
-        self.player_monster_image = pygame.transform.scale(pygame.image.load('image/monster_images/mudkip_back.png'), (130, 130))
-        self.background_image = pygame.transform.scale(pygame.image.load('image/attack_system_images/white_background.jpg'),(40, 40))
-        self.background_image_screen = pygame.transform.scale(pygame.image.load('image/attack_system_images/battle_background.jpg'),(600, 440))
+        self.start_image = pygame.transform.scale(pygame.image
+                                            .load('image/attack_system_images/pure_black.jpg'),(600, 300))
+        self.arrow_image = pygame.transform.scale(pygame.image
+                                            .load('image/attack_system_images/arrow_for_options.jpg'),(40, 25))
+        self.monster_image_front = pygame.transform.scale(pygame.image
+                                            .load('image/monster_images/mudkip_front.png'), (80, 80))
+        self.player_monster_image = pygame.transform.scale(pygame.image
+                                            .load('image/monster_images/mudkip_back.png'), (130, 130))
+        self.background_image = pygame.transform.scale(pygame.image
+                                            .load('image/attack_system_images/white_background.jpg'),(40, 40))
+        self.background_image_screen = pygame.transform.scale(pygame.image
+                                            .load('image/attack_system_images/battle_background.jpg'),(600, 440))
         self.arrow_image_angle = pygame.transform.rotate(self.arrow_image,270)
         # Set the title
         pygame.display.set_caption("Attack System")
@@ -22,6 +29,8 @@ class AttackSystem:
         # Monster and player's distance ti the left screen
         self.monster_left = 0
         self.player_left = 0
+        self.black_top_up = 0
+        self.black_top_down = 300
         # FPS
         self.FPS_CLOCK = pygame.time.Clock()
 
@@ -92,15 +101,20 @@ class AttackSystem:
             self.monster_left += 5
         if self.player_left <= 150:
             self.player_left += 3
+        if self.black_top_up >= -300:
+            self.black_top_up -= 4
+        if self.black_top_down <= 600:
+            self.black_top_down += 4
         self.screen.blit(self.monster_image_front, [self.monster_left, 50])
         self.screen.blit(self.player_monster_image, [self.player_left, 300])
+        self.screen.blit(self.start_image, [0, self.black_top_up])
+        self.screen.blit(self.start_image, [0, self.black_top_down])
 
     # Get new event from keyboard(change options by click W,A,S,D)
     def attack_start(self):
         talk_continue = False
         animation_finish = False
         while True:
-            print(self.FPS_CLOCK)
             self.screen.fill((255, 255, 255))
             self.monster_player_intro()
             # Show the options and conversation when the animation is finished
@@ -110,6 +124,7 @@ class AttackSystem:
                     self.__draw_attack_rect('j')
                 else:
                     self.__draw_attack_rect('')
+            # When the animation and the conversation is over, show 4 options
             if animation_finish and talk_continue:
                 self.__options_refresh()
             for event in pygame.event.get():
@@ -134,11 +149,20 @@ class AttackSystem:
                             self.__arrow_movement('d')
                             self.__options_refresh()
                         if event.key == K_j:
+                            if talk_continue:
+                                if self.background_default_options == 1:
+                                    print('you choose use skills!')
+                                if self.background_default_options == 2:
+                                    print('you choose to open your package')
+                                if self.background_default_options == 3:
+                                    print('you choose to change monster')
+                                if self.background_default_options == 4:
+                                    print('you choose to run away')
+                            # The conversation is finished
                             if not talk_continue:
                                 talk_continue = True
-
             pygame.display.update()
-            self.FPS_CLOCK.tick(30)
+            self.FPS_CLOCK.tick(45)
 
 
 a = AttackSystem
