@@ -1,5 +1,6 @@
 import pygame
 import c.terrain
+import pygame,sys
 import c.character
 from pygame.locals import *
 
@@ -39,11 +40,11 @@ pygame.image.load('image/player/right2.png').convert_alpha()]
 
 Tree = pygame.image.load('image/tree.png').convert_alpha()
 
-for i in range(40):
+for i in range(41):
     row=[]
     for k in range(i):
         row.append([Grass_ground1,''])
-    for j in range(i,40):
+    for j in range(i,41):
         row.append([Grass_ground,''])
     Map.append(row)
 
@@ -177,16 +178,16 @@ def refresh():
 
     offset = 6*player.Clock
     #Loading straw illustration
-    for i in range(11):
-        for j in range(0,15):
+    for i in range(-2,13):
+        for j in range(-2,17):
             if len((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image)==1 :
                 screen.blit((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image[0],[j*60+x*offset,i*60+y*offset])
             else:
                 #print((Dynamicstate_point%4+1)%2+2*((Dynamicstate_point%4+1)//4))
                 screen.blit((Map[Player_location[0]-7+j][Player_location[1]-5+i][0]).Image[(Dynamicstate_point%36//9+1)%2+2*((Dynamicstate_point%36//9+1)//4)],[j*60+x*offset,i*60+y*offset])
 
-    for i in range(-1,15):
-        for j in range(-1,15):
+    for i in range(-2,17):
+        for j in range(-2,17):
             #Loading character illustration
             if i==6 and j==4:
                 if player.Clock ==0 :
@@ -205,8 +206,7 @@ def refresh():
 
     
     
-
-while 1: 
+while 1:
     refresh()    
 
     pygame.display.flip()
